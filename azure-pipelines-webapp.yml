@@ -7,14 +7,20 @@ jobs:
     vmImage: 'ubuntu-16.04'
     demands: npm
   steps:
+  
   - task: DotNetCoreCLI@2
-    displayName: Restore
     inputs:
-      command: restore
-      feedsToUse: config
-      nugetConfigPath: 'src/nuget.config'
-
+      command: 'restore'
       projects: '**/*.API.csproj'
+      feedsToUse: 'config'
+
+  #- task: DotNetCoreCLI@2
+  #  displayName: Restore
+  #  inputs:
+  #    command: restore
+  #    feedsToUse: config
+  #    nugetConfigPath: 'src/nuget.config'
+  #    projects: '**/*.API.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: Build
