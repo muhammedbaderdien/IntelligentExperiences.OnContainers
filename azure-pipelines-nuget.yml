@@ -1,17 +1,8 @@
 # Azure Pipelines for NuGet :)
 # More info: https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=vsts
 
-parameters:
-  Name: 'NuGetCI'
-  RestoreBuildProjects: '**/*.SDK.csproj'
-  WorkingDirectory: 'src'
-  BuildConfiguration: 'Release'
-  Major: '1'
-  Minor: '0'
-  ArtifactName: 'CustomNuGet'
-
 jobs:
-- job: ${{ Parameters.Name }}
+- job: 'NuGetCI'
   pool:
     vmImage: 'vs2017-win2016'
     demands: npm
@@ -22,16 +13,16 @@ jobs:
     inputs:
       command: restore
       feedsToUse: config
-      nugetConfigPath: '${{ Parameters.WorkingDirectory }}/nuget.config'
-      projects: ${{ Parameters.RestoreBuildProjects }}
+      nugetConfigPath: 'src/nuget.config'
+      projects: '**/*.SDK.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: DotNet Build
     inputs:
       command: build
-      projects: ${{ Parameters.RestoreBuildProjects }}
-      arguments: '--configuration ${{ Parameters.BuildConfiguration }}'
-      workingDirectory: ${{ Parameters.WorkingDirectory }}
+      projects: '**/*.SDK.csproj'
+      arguments: 'Release'
+      workingDirectory: 'src'
 
   - powershell: |
       $Package_CI_Version = "1.0.$(Build.BuildNumber)"
@@ -42,14 +33,14 @@ jobs:
     displayName: 'DotNet Pack'
     inputs:
       command: pack
-      packagesToPack: '${{ Parameters.RestoreBuildProjects }}'
+      packagesToPack: '**/*.SDK.csproj'
       configuration: '$(BuildConfiguration)'
       packDirectory: '$(Build.ArtifactStagingDirectory)'
       nobuild: true
       versioningScheme: 'byEnvVar'
       versionEnvVar: 'Package_CI_Version'
-      majorVersion: '${{ Parameters.Major }}'
-      minorVersion: '${{ Parameters.Minor }}'
+      majorVersion: '1'
+      minorVersion: '0'
       patchVersion: '$(Build.BuildNumber)'
 
 #  - task: NuGetCommand@2
@@ -61,7 +52,7 @@ jobs:
 #      allowPackageConflicts: true
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish NuGet Artifact: ${{ Parameters.Name }}'
+    displayName: 'Publish NuGet Artifact: NuGetCI'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: '${{ Parameters.ArtifactName }}'
+      ArtifactName: 'CustomNuGet'
