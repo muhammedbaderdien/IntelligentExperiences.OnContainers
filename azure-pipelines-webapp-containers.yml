@@ -10,8 +10,6 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'iemobazure0917contosoacr2bf9-auth'
-
-
 jobs:
 - job: 'ASPNetCoreWebApp'
   pool:
