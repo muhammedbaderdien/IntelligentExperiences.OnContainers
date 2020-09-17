@@ -9,10 +9,12 @@ jobs:
   steps:
   
   - task: DotNetCoreCLI@2
+    displayName: Restore
     inputs:
       command: 'restore'
       projects: '**/*.API.csproj'
       feedsToUse: 'config'
+      nugetConfigPath: '$(Agent.BuildDirectory)/src/apis/CognitiveOrchestrator.API/nuget.config'
 
   #- task: DotNetCoreCLI@2
   #  displayName: Restore
