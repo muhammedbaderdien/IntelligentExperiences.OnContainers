@@ -1,15 +1,8 @@
 # Azure Pipelines for .NET Core app (Web, Function, ....) :)
 # More info: https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=vsts
 
-variables:
 
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'abfa5095-0df9-487b-b0fa-d8438e88d0eb'
-  imageRepository: 'ieoncontainers'
-  containerRegistry: 'iemobazure0917contosoacr.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
-  imagePullSecret: 'iemobazure0917contosoacr2bf9-auth'
+
 jobs:
 - job: 'ASPNetCoreWebApp'
   pool:
@@ -69,15 +62,15 @@ jobs:
   - task: Docker@2
     displayName: 'Docker Build'
     inputs:
-      containerRegistry: $(dockerRegistryServiceConnection)
-      repository: $(imageRepository)
+      containerRegistry: 'abfa5095-0df9-487b-b0fa-d8438e88d0eb'
+      repository: 'ieoncontainers'
       command: build
       Dockerfile: 'src'
 
   - task: Docker@2
     displayName: 'Docker Push'
     inputs:
-      containerRegistry: $(dockerRegistryServiceConnection)
-      repository: $(imageRepository)
+      containerRegistry: 'abfa5095-0df9-487b-b0fa-d8438e88d0eb'
+      repository: 'ieoncontainers'
       command: push
       Dockerfile: 'src'
