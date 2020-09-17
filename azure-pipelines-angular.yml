@@ -1,11 +1,8 @@
 # Azure Pipelines for Angular app :)
 # More info: https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=vsts
 
-parameters:
-  Name: 'AngularApp'
-
 jobs:
-- job: ${{ Parameters.Name }}
+- job: 'AngularApp'
   pool:
     vmImage: 'vs2017-win2016'
     demands: npm
