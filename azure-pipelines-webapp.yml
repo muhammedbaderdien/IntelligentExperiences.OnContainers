@@ -1,16 +1,8 @@
 # Azure Pipelines for .NET Core app (Web, Function, ....) :)
 # More info: https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=vsts
-parameters:
-  Name: 'ASPNetCoreWebApp'
-  RestoreBuildProjects: '**/*.API.csproj'
-  BuildConfiguration: 'Release'
-  WorkingDirectory: 'src'
-  PublishWebApp: True
-  ArtifactName: 'AppDrop'
-  ZipAfterPublish: True
 
 jobs:
-- job: ${{ Parameters.Name }}
+- job: 'ASPNetCoreWebApp'
   pool:
     vmImage: 'ubuntu-16.04'
     demands: npm
@@ -20,29 +12,29 @@ jobs:
     inputs:
       command: restore
       feedsToUse: config
-      nugetConfigPath: '${{ Parameters.WorkingDirectory }}/nuget.config'
+      nugetConfigPath: 'src/nuget.config'
 
-      projects: ${{ Parameters.RestoreBuildProjects }}
+      projects: '**/*.API.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
-      projects: ${{ Parameters.RestoreBuildProjects }}
-      arguments: '--configuration ${{ Parameters.BuildConfiguration }}'
-      workingDirectory: ${{ Parameters.WorkingDirectory }}
+      projects: '**/*.API.csproj'
+      arguments: '--configuration Release'
+      workingDirectory: 'src'
 
   - task: DotNetCoreCLI@2
     displayName: Publish
     inputs:
       command: publish
-      publishWebProjects: ${{ Parameters.PublishWebApp }}
-      arguments: '--configuration ${{ Parameters.BuildConfiguration }} --output $(build.artifactstagingdirectory)'
-      zipAfterPublish: ${{ Parameters.ZipAfterPublish }}
-      workingDirectory: ${{ Parameters.WorkingDirectory }}
+      publishWebProjects: True
+      arguments: '--configuration Release --output $(build.artifactstagingdirectory)'
+      zipAfterPublish: True
+      workingDirectory: 'src'
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: ${{ Parameters.ArtifactName }}'
+    displayName: 'Publish Artifact: AppDrop'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
-      ArtifactName: ${{ Parameters.ArtifactName }}
+      ArtifactName: 'AppDrop'
       zipAfterPublish: True
