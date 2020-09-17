@@ -9,14 +9,14 @@ jobs:
     vmImage: 'ubuntu-16.04'
     demands: npm
   steps:
+  
   - task: DotNetCoreCLI@2
     displayName: Restore
     inputs:
-      command: restore
-      feedsToUse: config
-      nugetConfigPath: 'src/nuget.config'
-
+      command: 'restore'
       projects: '**/*.API.csproj'
+      feedsToUse: 'config'
+      nugetConfigPath: '$(Build.SourcesDirectory)/src/apis/CognitiveOrchestrator.API/nuget.config'
 
   - task: DotNetCoreCLI@2
     displayName: Build
