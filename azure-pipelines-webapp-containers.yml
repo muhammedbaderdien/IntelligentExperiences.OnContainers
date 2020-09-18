@@ -43,7 +43,7 @@ jobs:
   - task: CopyFiles@2
     displayName: 'Copy Deployment Files'
     inputs:
-      SourceFolder: 'src/deployment'
+      SourceFolder: '$(Build.SourcesDirectory)/src/apis/CognitiveOrchestrator.API/deployment'
       TargetFolder: '$(build.artifactstagingdirectory)/deployment'
 
   - task: PublishBuildArtifacts@1
