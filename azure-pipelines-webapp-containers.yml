@@ -65,7 +65,9 @@ jobs:
       containerRegistry: 'abfa5095-0df9-487b-b0fa-d8438e88d0eb'
       repository: 'ieoncontainers'
       command: build
-      Dockerfile: 'src'
+      Dockerfile: '**/Dockerfile'
+  
+  
 
   - task: Docker@2
     displayName: 'Docker Push'
@@ -73,4 +75,4 @@ jobs:
       containerRegistry: 'abfa5095-0df9-487b-b0fa-d8438e88d0eb'
       repository: 'ieoncontainers'
       command: push
-      Dockerfile: 'src'
+      Dockerfile: '**/Dockerfile'
