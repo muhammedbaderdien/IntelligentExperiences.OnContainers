@@ -13,7 +13,7 @@ jobs:
     inputs:
       command: restore
       feedsToUse: config
-      nugetConfigPath: 'src/nuget.config'
+      nugetConfigPath: '$(Build.SourcesDirectory)/src/core/CoreLib/nuget.config'
       projects: '**/*.SDK.csproj'
 
   - task: DotNetCoreCLI@2
